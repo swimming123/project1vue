@@ -1,3 +1,99 @@
 components > 
 이 폴더에는 PageFooter.vue, PageHeader.vue 있어야 함
 Helloworld.vue에는 메인 컨텐츠
+
+템플릿
+<template>
+  <div class="hello-world">
+    <!-- MAIN -->
+    <div class="main">
+      <!-- MAIN CONTENT -->
+      <div class="main-content">
+        <div class="container-fluid">
+          <!-- OVERVIEW -->
+          <div class="panel panel-headline">
+            <div class="panel-heading">
+              <h3 class="panel-title">Weekly Overview</h3>
+              <p class="panel-subtitle">Period: Oct 14, 2016 - Oct 21, 2016</p>
+            </div>
+            <div class="panel-body">
+              <!-- Overview Content Here -->
+            </div>
+          </div>
+          <!-- END OVERVIEW -->
+          <div class="row">
+            <div class="col-md-6">
+              <!-- RECENT PURCHASES -->
+              <div class="panel">
+                <!-- Recent Purchases Content Here -->
+              </div>
+              <!-- END RECENT PURCHASES -->
+            </div>
+            <div class="col-md-6">
+              <!-- MULTI CHARTS -->
+              <div class="panel">
+                <!-- Multi Charts Content Here -->
+              </div>
+              <!-- END MULTI CHARTS -->
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-7">
+              <!-- TODO LIST -->
+              <div class="panel">
+                <!-- Todo List Content Here -->
+              </div>
+              <!-- END TODO LIST -->
+            </div>
+            <div class="col-md-5">
+              <!-- TIMELINE -->
+              <div class="panel">
+                <!-- Timeline Content Here -->
+              </div>
+              <!-- END TIMELINE -->
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-4">
+              <!-- TASKS -->
+              <div class="panel">
+                <!-- Tasks Content Here -->
+              </div>
+              <!-- END TASKS -->
+            </div>
+            <div class="col-md-4">
+              <!-- VISIT CHART -->
+              <div class="panel">
+                <!-- Visit Chart Content Here -->
+              </div>
+              <!-- END VISIT CHART -->
+            </div>
+            <div class="col-md-4">
+              <!-- REALTIME CHART -->
+              <div class="panel">
+                <!-- Realtime Chart Content Here -->
+              </div>
+              <!-- END REALTIME CHART -->
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- END MAIN CONTENT -->
+    </div>
+    <!-- END MAIN -->
+  </div>
+</template>
+
+<script>
+export default {
+  name: 'HelloWorld',
+  props: {
+    msg: String
+  }
+}
+</script>
+
+<!-- Add "scoped" attribute to limit CSS to this component only -->
+<style scoped>
+/* Your CSS styles here */
+</style>
