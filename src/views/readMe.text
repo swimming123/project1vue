@@ -1,0 +1,286 @@
+세부 페이지 생성
+
+boardlist
+<template>
+    <div>
+        
+		<!-- Page Header Start -->
+		<div class="container-fluid page-header py-4 mb-2 wow fadeIn" data-wow-delay="0.1s">
+			<div class="container text-center py-5">
+				<h1 class="display-5 text-white mb-4 animated slideInDown">게시판</h1>
+				<nav aria-label="breadcrumb animated slideInDown">
+				</nav>
+			</div>
+		</div>
+		<!-- Page Header End -->
+
+		<!-- Projects Start -->
+		<div class="container-xxl py-5">
+			<div class="container">
+				<div class="row wow fadeInUp" data-wow-delay="0.3s">
+					<div class="col-12 text-center">
+						<ul class="list-inline rounded mb-5" id="portfolio-flters">
+							<li class="mx-2" @click="filterProjects('*')">전체</li>
+							<li class="mx-2" @click="filterProjects('.first')">카테고리2</li>
+							<li class="mx-2" @click="filterProjects('.second')">카테고리3</li>
+							<button type="button" class="btn btn-primary mx-2">글작성</button>
+						</ul>
+					</div>
+				</div>
+
+				<table class="table">
+					<thead>
+						<tr>
+							<th>번호</th>
+							<th>카테고리</th>
+							<th>제목</th>
+							<th>작성자</th>
+							<th>작성일자</th>
+							<th>좋아요</th>
+							<th>조회수</th>
+						</tr>
+					</thead>
+					<tbody>
+							<tr v-for="project in list" :key="project.num">
+								<td>{{project.num}}</td>
+								<td>
+									<router-link to="/board/boardDetail" :key="project.num" @click="$event => href(project)">{{project.category}}</router-link>
+								</td>
+								<td>{{project.title}}</td>
+								<td>{{project.writer}}</td>
+								<td>{{project.wdate}}</td>
+								<td>{{project.like}}</td>
+								<td>{{project.hit}}</td>
+							</tr>
+					</tbody>
+				</table>
+
+
+				<nav aria-label="Page navigation example">
+					<ul class="pagination">
+						<li class="page-item" :class="{ 'disabled': currentPage === 1 }">
+							<a class="page-link" href="#" aria-label="Previous" @click.prevent="prevPage">
+								<span aria-hidden="true">&laquo;</span>
+							</a>
+						</li>
+						<li class="page-item" v-for="page in pages" :key="page"
+							:class="{ 'active': currentPage === page }">
+							<a class="page-link" href="#" @click.prevent="changePage(page)">1</a>
+						</li>
+						<li class="page-item" :class="{ 'disabled': currentPage === totalPages }">
+							<a class="page-link" href="#" aria-label="Next" @click.prevent="nextPage">
+								<span aria-hidden="true">&raquo;</span>
+							</a>
+						</li>
+					</ul>
+				</nav>
+			</div>
+		</div>
+	<!-- Projects End -->
+        
+    </div>
+</template>
+
+<script>
+export default {
+    data() {
+        return {
+            list:[
+                {num:1,category:'식단 프로젝트',title:'AI을 활용한 음식 이미지 분석', conts:'내용내용내용ㅋㅋ',writer:'냉장고든램지',wdate:'2024-01-02', like:'10k', hit:'100k'},
+                {num:2,category:'과제',title:'UI 완성해서 제출', conts:'내용내용내용ㅎㅎ',writer:'백선생',wdate:'2024-01-02', like:'10k', hit:'100k'},
+                {num:3,category:'게시판',title:'세부 기능 구현은 백단에서 할게요', conts:'내용내용내용ㅜㅜ',writer:'자백새',wdate:'2024-01-02', like:'10k', hit:'100k'},
+
+
+                
+            ]
+        }
+    },
+    methods: {
+        href(project){
+            this.$router.push({name:'boardDetail', params:project});
+        }
+    },
+
+}
+</script>
+==========================================
+board boardDetail
+<template>
+    <div>
+        <!-- 페이지 헤더 시작 -->
+        <div class="container-fluid page-header py-4 mb-2 wow fadeIn" data-wow-delay="0.1s">
+            <div class="container text-center py-5">
+                <h1 class="display-5 text-white mb-4 animated slideInDown">게시글 상세보기</h1>
+                <nav aria-label="breadcrumb animated slideInDown">
+                </nav>
+            </div>
+        </div>
+        <!-- 페이지 헤더 끝 -->
+
+        <!-- 중앙 정렬된 콘텐츠 섹션 -->
+        <div class="container-fluid">
+            <div class="row justify-content-center align-items-center">
+                <div class="col-lg-8">
+                    <div class="bg-light rounded p-4 mb-4 content-section">
+                        <h3 class="mb-3">{{ result.title }}</h3>
+                        <div id="postContent" class="mb-3" style="border: 1px solid #ccc; padding: 10px;">
+                             <p>{{ result.conts }}</p>
+                        </div>
+
+                        <label for="username" class="form-label">작성자 아이디</label>
+                        <input type="text" class="form-control mb-3" id="username" name="username" v-model="username">
+
+                        <label for="comment" class="form-label">댓글 입력</label>
+                        <textarea class="form-control mb-3" id="comment" name="comment" v-model="comment" rows="3" placeholder="댓글을 입력하세요"></textarea>
+                        <button @click="pushcomm" type="button" class="btn btn-primary mb-3">댓글 작성</button>
+
+                        <div class="d-flex justify-content-end">
+                            <router-link to="board">
+                                <button class="btn btn-secondary me-2">목록</button>
+                            </router-link>
+                            <router-link to="/board/boardDetail/boardupdate">
+                                <button class="btn btn-secondary me-2">수정</button>
+                            </router-link>
+                            <button class="btn btn-danger">삭제</button>
+                        </div>
+
+                        <h3 class="mb-3">댓글</h3>
+                        <ul v-for="(comm, index) in comments" :key="index">
+                            <li>번호 : {{ index + 1 }}</li>
+                            <li>작성자 : {{ comm.username }}</li>
+                            <li>댓글내용 : {{ comm.comment }}</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+
+<script>
+export default {
+    data() {
+        return {
+            msg: "게시판 상세보기",
+            result: {},
+            username: '',
+            comment: '',
+            comments: []
+        }
+    },
+    created() {
+        this.result = {
+            num: this.$route.params.num,
+            category: this.$route.params.category,
+            title: this.$route.params.title,
+            conts: this.$route.params.conts,
+            writer: this.$route.params.writer,
+            wdate: this.$route.params.wdate,
+            like: this.$route.params.like,
+            hit: this.$route.params.hit,
+        };
+        this.loadComments();
+    },
+    methods: {
+        pushcomm() {
+            if (this.username && this.comment) {
+                this.comments.push({
+                    username: this.username,
+                    comment: this.comment
+                });
+                this.saveComments();
+                this.username = '';
+                this.comment = '';
+            }
+        },
+        saveComments() {
+            const parseComment = JSON.stringify(this.comments);
+            localStorage.setItem('comments', parseComment);
+        },
+        loadComments() {
+            const savedComments = localStorage.getItem('comments');
+            if (savedComments) {
+                this.comments = JSON.parse(savedComments);
+            }
+        },
+    }
+}
+</script>
+==========================================
+boardupdate
+<template>
+    <div>
+        
+
+    <!-- Page Header Start -->
+    <div class="container-fluid page-header py-5 mb-5 wow fadeIn" data-wow-delay="0.1s">
+        <div class="container text-center py-5">
+            <h1 class="display-3 text-white mb-4 animated slideInDown">게시글 수정</h1>
+            <nav aria-label="breadcrumb animated slideInDown">
+ 
+            </nav>
+        </div>
+    </div>
+    <!-- Page Header End -->
+
+
+    <!-- Projects Start -->
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-6">
+                <div class="bg-light rounded p-4">
+                    <div id="app">
+                        <label for="username" class="form-label">작성자 아이디</label>
+                        <input type="text" class="form-control mb-3" id="username" name="username"  v-model="username" value="{{result.writer}}" readonly>
+
+                        <label for="title" class="form-label">글 제목</label>
+                        <input type="text" class="form-control mb-3" id="title" name="title" placeholder="글 제목을 입력하세요" v-model="title" value="{{ result.title }}">
+
+                <label for="title" class="form-label">글 부제목</label>
+                        <input type="text" class="form-control mb-3" id="title" name="title" placeholder="글 부제목을 입력하세요" value="{{ result.title }}">
+
+                        <label for="content" class="form-label">글 내용</label>
+                        <textarea class="form-control" id="content" name="content" rows="5" v-model="conts" placeholder="글 내용을 입력하세요">{{ result.conts }}</textarea>
+
+                        <button onclick="window.location.href='boarddetail.html'" type="button" class="btn btn-primary mt-3">글 수정</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+        
+                
+        <!-- Projects End -->
+
+
+    <!-- Footer Start -->
+    
+    <!-- Footer End -->
+
+    <!-- Back to Top -->
+    <a href="#" class="btn btn-lg btn-primary btn-lg-square rounded-circle back-to-top"><i class="bi bi-arrow-up"></i></a>
+
+    </div>
+</template>
+<script>
+    export default {
+        data() {
+            return {
+                msg: "게시판 수정하기",
+                result: {},
+                username: '',
+                conts: '',
+                title:''
+            }
+        },
+        created() {
+            this.result = {
+                num: this.$route.params.num,
+                title: this.$route.params.title,
+                conts: this.$route.params.conts,
+                writer: this.$route.params.writer,
+            };
+            this.loadComments();
+        },
+    }
+</script>

@@ -1,0 +1,55 @@
+router에서 페이지 연결
+
+예시
+import { createRouter, createWebHistory } from 'vue-router'
+import HomeView from '../views/HomeView.vue'
+
+const routes = [
+  {
+    path: '/',
+    name: 'home',
+    component: HomeView
+  },
+  {
+    path: '/about',
+    name: 'about',
+    component: () => import('../views/AboutView.vue')
+  },
+  {
+    path: '/login',
+    name: 'login',
+    component: () => import('../views/login.vue')
+  },
+  {
+    path: '/bespoke',
+    name: 'bespoke',
+    component: () => import('../views/bespoke.vue')
+  },
+  {
+    path: '/board',
+    name: 'board',
+    component: () => import('../views/board.vue')
+  },
+  {
+    path: '/board/boardDetail/:num/:category/:title/:conts/:writer/:wdate/:like/:hit',
+    name: 'boardDetail',
+    component: () => import('../views/boardDetail.vue')
+  },
+  {
+    path: '/member',
+    name: 'member',
+    component: () => import('../views/member.vue')
+  },
+  {
+    path:'/board/boardDetail/boardupdate/:num/:category/:title/:conts/:writer/:wdate/:like/:hit',
+    name:'boardupdate',
+    component: () => import('../views/boardupdate.vue')
+  },
+]
+
+const router = createRouter({
+  history: createWebHistory(process.env.BASE_URL),
+  routes
+})
+
+export default router
